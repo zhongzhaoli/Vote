@@ -1,5 +1,5 @@
 $(function(){
-    $(".score_div > div").on("click", function(){
+    $(".score_div > div").on("mouseover", function(){
         let arr = $(this).prevAll();
         arr.push($(this).get(0));
         
