@@ -1,0 +1,68 @@
+body,html{
+    padding: 0.5rem;
+}
+.user_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    margin-bottom:1rem;
+}
+.user_header > a{
+    color: #434394;
+}
+.vote_title{
+    text-align: center;
+}
+.vote label{
+    font-size:1rem;
+}
+.vote_div{
+    margin-top: 0.5rem;
+}
+.vote{
+    margin-bottom: 1rem;
+}
+.score_div{
+    margin:0.8rem 0;
+    border:1px #eaeaea solid;
+    border-radius: 5px;
+    display: flex;
+}
+.score_div > div{
+    flex: 1;
+    text-align: center;
+    padding: 0.8rem 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.score_div > div:first-child, .score_div > div:last-child{
+    flex:2;
+}
+.score_div > div:not(:last-child){
+    border-right: 1px #eaeaea solid;
+}
+.score_div > .active{
+    background: #edf9ff;
+}
+.vote_btn{
+    margin-top: 0.8rem;
+    min-width: 10rem;
+}
+.text-center{
+    text-align: center;
+}
+.vote_group{
+    text-align: center;
+    
+}
+@media screen and (max-width: 600px){
+    .layui-container{
+        padding: 0;
+    }
+    .vote_btn{
+        width: 100%;
+    }
+}
