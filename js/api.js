@@ -17,6 +17,11 @@ const api =  {
     vote(obj){
         let url = this.url + "/vote";
         return ajax.ajax(url, "post", obj);
+    },
+    //总计接口
+    total(){
+        let url = this.url + "/total";
+        return ajax.ajax(url, "get");
     }
 }
 window.api = api;

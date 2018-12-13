@@ -12,8 +12,8 @@ let variable = {
     //移动到的元素
     move_el: "",
     //选中函数
-    to_active: function(a){
-        if(!a){
+    to_active: function (a) {
+        if (!a) {
             $(this.now_el).parent().attr("score", 0);
             $(this.now_el).parent().children("div").removeClass("active");
         }
@@ -25,8 +25,8 @@ let variable = {
         $(arr).addClass("active");
         //添加分数data
         const now_html = $(a).html();
-        switch(now_html){
-            case "极好": 
+        switch (now_html) {
+            case "极好":
                 $(a).parent().attr("score", 8);
                 break;
             case "极差":
@@ -38,7 +38,7 @@ let variable = {
         }
     },
     //初始化
-    init: function(){
+    init: function () {
         this.bad_offset = $("#score_start").offset().left;
         this.good_offset = $("#score_end").offset().left;
         this.bad_good_width = $("#score_start")[0].offsetWidth;
@@ -46,7 +46,7 @@ let variable = {
     },
     socket_io: io(api.socket_url),
     //socket给服务端发送数据
-    socket_fun: function(a){
+    socket_fun: function (a) {
         //socket
         let key = $(a).attr("group");
         let obj = {};
@@ -56,38 +56,39 @@ let variable = {
     //各个组数组
     group: [],
     //渲染函数
-    rendering: function(){
-        for(let i in this.group){
+    rendering: function () {
+        for (let i in this.group) {
             //循环克隆渲染
             let sj = this.group[i];
             let el = $("#vote").clone(true).appendTo($(".vote_div"));
             el.children(".vote_group").html(sj.name);
             el.children(".score_div").attr("group", sj.id);
             el.removeClass("vis_hidden");
-            if(sj.myvote){
+            if (sj.myvote) {
                 el.find("button").remove();
                 this.to_active($(el.children(".score_div").children()[sj.myvote.fraction - 1]));
                 el.children("input").val(sj.myvote.ps).attr("disabled", "disabled");
                 el.children("input").attr("rows", 3);
-                if(!el.children("input").val()){
+                if (!el.children("input").val()) {
                     el.children("input").val("无");
                 }
+                el.children(".score_div").children("div").unbind();
             }
         }
         //删除被克隆的元素
         $(".vote_div").children().first().remove();
     },
 }
-$(function(){
-    
+$(function () {
+
     //初始化数据
 
     //判断登录
-    if(getCookie("kx_user_id")){
+    if (getCookie("kx_user_id")) {
         show_loading();
         api.login_api(getCookie("kx_user_id")).then((mes) => {
             $("#user_id").html(mes.username + "，你好");
-        },function(err){
+        }, function (err) {
             window.location.href = "login.html";
             delCookie("kx_user_id");
         }).then((mes) => {
@@ -98,14 +99,13 @@ $(function(){
                 body_show();
             })
         })
-    }
-    else{
+    } else {
         window.location.href = "login.html";
     }
 
 
     //提交按钮点击
-    $("[data-upload]").on("click", function(){
+    $("[data-upload]").on("click", function () {
         //socket 传输
         variable.socket_fun($(this).parent().prevAll(".score_div"));
         //数据库
@@ -118,53 +118,57 @@ $(function(){
         show_loading();
         api.vote(obj).then((mes) => {
             close_loading();
-            $.growl.notice({title: "提示", message: "打分成功"});  
+            $.growl.notice({
+                title: "提示",
+                message: "打分成功"
+            });
             $(this).parent().slideUp();
-            if(!obj.ps){
+            if (!obj.ps) {
                 $(this).parent().prev().val("无");
             }
-        }, function(err){
+        }, function (err) {
             close_loading();
-            $.growl.warning({title: "提示", message: err.responseJSON.message});            
+            $.growl.warning({
+                title: "提示",
+                message: err.responseJSON.message
+            });
         });
     })
 
     //退出按钮点击
-    $("#logout").on("click", function(){
+    $("#logout").on("click", function () {
         event.preventDefault();
         delCookie("kx_user_id");
         window.location.href = $(this).attr("href");
     })
 
     //手指按下去
-    $(".score_div > div").on("touchstart", function(event){
+    $(".score_div > div").on("touchstart", function (event) {
         variable.now_el = $(this);
         variable.move_el = $(this);
         variable.to_active(variable.now_el);
     })
 
     //手指移动
-    $(".score_div > div").on("touchmove", function(event){
+    $(".score_div > div").on("touchmove", function (event) {
+        console.log("1");
         let x = event.touches[0].clientX - variable.bad_offset;
-        if(x < 0){
+        if (x < 0) {
             variable.move_el = "";
-        }
-        else if(x <= variable.bad_good_width){
+        } else if (x <= variable.bad_good_width) {
             variable.move_el = variable.now_el.parent().children("div")[0];
-        }
-        else if(x >= variable.good_offset){
-            variable.move_el = variable.now_el.parent().children("div")[variable.now_el.parent().children().length - 1];            
-        }
-        else{
-            let list_choose =  Math.ceil((x - variable.bad_good_width) / variable.other_width);
-            variable.move_el = variable.now_el.parent().children("div")[list_choose]; 
+        } else if (x >= variable.good_offset) {
+            variable.move_el = variable.now_el.parent().children("div")[variable.now_el.parent().children().length - 1];
+        } else {
+            let list_choose = Math.ceil((x - variable.bad_good_width) / variable.other_width);
+            variable.move_el = variable.now_el.parent().children("div")[list_choose];
         }
         variable.to_active(variable.move_el);
     })
 })
-$(window).resize(function(){
+$(window).resize(function () {
     variable.init();
 });
-window.onload = function(){
+window.onload = function () {
     variable.init();
 }
