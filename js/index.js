@@ -21,14 +21,19 @@ let variable = {
         
         $(a).nextAll().removeClass("active");
         $(arr).addClass("active");
+    },
+    //初始化
+    init: function(){
+        this.bad_offset = $("#score_start").offset().left;
+        this.good_offset = $("#score_end").offset().left;
+        this.bad_good_width = $("#score_start")[0].offsetWidth;
+        this.other_width = $("#score_other")[0].offsetWidth;
     }
+
 }
 $(function(){
     
-    variable.bad_offset = $("#score_start").offset().left;
-    variable.good_offset = $("#score_end").offset().left;
-    variable.bad_good_width = $("#score_start")[0].offsetWidth;
-    variable.other_width = $("#score_other")[0].offsetWidth;
+    variable.init();
 
     $(".score_div > div").on("touchstart", function(event){
         variable.now_el = $(this);
@@ -52,3 +57,6 @@ $(function(){
         variable.to_active(variable.move_el);
     })
 })
+$(window).resize(function(){
+    variable.init();
+});
