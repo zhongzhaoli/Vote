@@ -1,5 +1,9 @@
 const api =  {
-    url: "",
+    //socket_url
+    socket_url: (typeof baseSocket !== 'undefined') ? baseSocket : "http://10.1.53.149:1080",
+    //api_url
+    url: (typeof baseUrl !== 'undefined') ? baseUrl : "http://10.1.53.123:9999",
+    //登录接口 获取用户信息接口
     login_api(id){
         let url = this.url + "/auth";
         return ajax.ajax(url, 'post', {"id": id});

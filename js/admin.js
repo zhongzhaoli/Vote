@@ -1,4 +1,14 @@
+
 $(function(){
+    let socket_io = io(api.socket_url);
+
+    socket_io.on("vote", function(emit){
+        var option = myChart.getOption();
+        option.series[0].data[Object.keys(emit) - 1] = parseInt(option.series[0].data[Object.keys(emit) - 1] + parseInt(emit[Object.keys(emit)]));
+        myChart.setOption(option);    
+    })
+
+
     var myChart = echarts.init(document.getElementById('main'));
     option = {
         color: ['#3398DB'],
@@ -17,7 +27,7 @@ $(function(){
         xAxis : [
             {
                 type : 'category',
-                data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'asd'],
                 axisTick: {
                     alignWithLabel: true
                 }
@@ -33,7 +43,7 @@ $(function(){
                 name:'直接访问',
                 type:'bar',
                 barWidth: '60%',
-                data:[10, 52, 200, 334, 390, 330, 220]
+                data:[0, 0, 0, 0, 0, 0, 0, 0]
             }
         ]
     };

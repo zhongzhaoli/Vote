@@ -74,7 +74,8 @@ module.exports = {
   //插件，用于生产模版和各项功能
   plugins: [
     new webpack.DefinePlugin({
-      'baseUrl': JSON.stringify('http://dev.example.com')
+      'baseUrl': JSON.stringify('http://dev.example.com'),
+      'baseSocket': JSON.stringify('http://dev.example.com'),
     })
   ],
   //配置webpack开发服务功能

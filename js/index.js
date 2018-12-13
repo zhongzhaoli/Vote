@@ -14,13 +14,28 @@ let variable = {
     //选中函数
     to_active: function(a){
         if(!a){
+            $(this.now_el).parent().attr("score", 0);
             $(this.now_el).parent().children("div").removeClass("active");
         }
+        //包括点击的当前div
         let arr = $(a).prevAll();
         arr.push($(a).get(0));
-        
+        //选中样式添加
         $(a).nextAll().removeClass("active");
         $(arr).addClass("active");
+        //添加分数data
+        const now_html = $(a).html();
+        switch(now_html){
+            case "极好": 
+                $(a).parent().attr("score", 8);
+                break;
+            case "极差":
+                $(a).parent().attr("score", 1);
+                break;
+            default:
+                $(a).parent().attr("score", $(a).html());
+                break;
+        }
     },
     //初始化
     init: function(){
@@ -28,17 +43,55 @@ let variable = {
         this.good_offset = $("#score_end").offset().left;
         this.bad_good_width = $("#score_start")[0].offsetWidth;
         this.other_width = $("#score_other")[0].offsetWidth;
+    },
+    socket_io: io(api.socket_url),
+    //socket给服务端发送数据
+    socket_fun: function(a){
+        //socket
+        let key = $(a).data("group");
+        let obj = {};
+        obj[key] = $(a).attr("score");
+        this.socket_io.emit("vote", obj);
     }
-
 }
 $(function(){
     
+    //初始化数据
     variable.init();
 
+    //判断登录
+    // if(getCookie("kx_user_id")){
+    //     api.login_api(getCookie("kx_user_id")).then(function(mes){
+    //         $("#user_id").html(mes.username + "，你好");
+    //     },function(err){
+    //         window.location.href = "login.html";
+    //         delCookie("kx_user_id");
+    //     })
+    // }
+    // else{
+    //     window.location.href = "login.html";
+    // }
+
+    //提交按钮点击
+    $("[data-upload]").on("click", function(){
+        variable.socket_fun($(this).parent().prevAll(".score_div"));
+    })
+
+    //退出按钮点击
+    $("#logout").on("click", function(){
+        event.preventDefault();
+        delCookie("kx_user_id");
+        window.location.href = $(this).attr("href");
+    })
+
+    //手指按下去
     $(".score_div > div").on("touchstart", function(event){
         variable.now_el = $(this);
+        variable.move_el = $(this);
         variable.to_active(variable.now_el);
     })
+
+    //手指移动
     $(".score_div > div").on("touchmove", function(event){
         let x = event.touches[0].clientX - variable.bad_offset;
         if(x < 0){
