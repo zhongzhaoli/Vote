@@ -48,33 +48,85 @@ let variable = {
     //socket给服务端发送数据
     socket_fun: function(a){
         //socket
-        let key = $(a).data("group");
+        let key = $(a).attr("group");
         let obj = {};
         obj[key] = $(a).attr("score");
         this.socket_io.emit("vote", obj);
-    }
+    },
+    //各个组数组
+    group: [],
+    //渲染函数
+    rendering: function(){
+        for(let i in this.group){
+            //循环克隆渲染
+            let sj = this.group[i];
+            let el = $("#vote").clone(true).appendTo($(".vote_div"));
+            el.children(".vote_group").html(sj.name);
+            el.children(".score_div").attr("group", sj.id);
+            el.removeClass("vis_hidden");
+            if(sj.myvote){
+                el.find("button").remove();
+                this.to_active($(el.children(".score_div").children()[sj.myvote.fraction - 1]));
+                el.children("input").val(sj.myvote.ps).attr("disabled", "disabled");
+                el.children("input").attr("rows", 3);
+                if(!el.children("input").val()){
+                    el.children("input").val("无");
+                }
+            }
+        }
+        //删除被克隆的元素
+        $(".vote_div").children().first().remove();
+    },
 }
 $(function(){
     
     //初始化数据
-    variable.init();
 
     //判断登录
-    // if(getCookie("kx_user_id")){
-    //     api.login_api(getCookie("kx_user_id")).then(function(mes){
-    //         $("#user_id").html(mes.username + "，你好");
-    //     },function(err){
-    //         window.location.href = "login.html";
-    //         delCookie("kx_user_id");
-    //     })
-    // }
-    // else{
-    //     window.location.href = "login.html";
-    // }
+    if(getCookie("kx_user_id")){
+        show_loading();
+        api.login_api(getCookie("kx_user_id")).then((mes) => {
+            $("#user_id").html(mes.username + "，你好");
+        },function(err){
+            window.location.href = "login.html";
+            delCookie("kx_user_id");
+        }).then((mes) => {
+            api.user_vote_history(getCookie("kx_user_id")).then((mes) => {
+                variable.group = mes;
+                variable.rendering();
+                close_loading();
+                body_show();
+            })
+        })
+    }
+    else{
+        window.location.href = "login.html";
+    }
+
 
     //提交按钮点击
     $("[data-upload]").on("click", function(){
+        //socket 传输
         variable.socket_fun($(this).parent().prevAll(".score_div"));
+        //数据库
+        let obj = {
+            "userid": getCookie("kx_user_id"),
+            "orgid": $(this).parent().prevAll(".score_div").attr("group"),
+            "fraction": $(this).parent().prevAll(".score_div").attr("score"),
+            "ps": $(this).parent().prev().val()
+        }
+        show_loading();
+        api.vote(obj).then((mes) => {
+            close_loading();
+            $.growl.notice({title: "提示", message: "打分成功"});  
+            $(this).parent().slideUp();
+            if(!obj.ps){
+                $(this).parent().prev().val("无");
+            }
+        }, function(err){
+            close_loading();
+            $.growl.warning({title: "提示", message: err.responseJSON.message});            
+        });
     })
 
     //退出按钮点击
@@ -113,3 +165,6 @@ $(function(){
 $(window).resize(function(){
     variable.init();
 });
+window.onload = function(){
+    variable.init();
+}

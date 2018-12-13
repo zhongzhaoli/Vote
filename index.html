@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/layui.css">
     <link rel="stylesheet" href="./css/jquery.growl.css">
     <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/base.css">
     <script src="./js/jquery.min.js"></script>
     <script src='./js/layui.js'></script>
     <script src="./js/jquery.growl.js"></script>
@@ -16,19 +17,24 @@
     <script src="./js/api.js"></script>
     <script src="./js/index.js"></script>
     <script src="./js/cookie.js"></script>
+    <script src="./js/util.js"></script>
 </head>
 <body>
-    <div class="layui-container">
+    <div class="loading">
+        <img src="./images/loading.gif" alt="">
+    </div>
+    <div class="layui-container" data-body>
         <div class="user_header">
             <span id="user_id">201500375，你好</span>
             <a id="logout" href="/login.html">退出</a>
         </div>
         <hr>
         <h1 class="vote_title">安卓组项目投票</h1>
+
         <div class="vote_div">
-            <div class="vote">
+            <div class="vote vis_hidden" id="vote">
                 <div class="vote_group">第一组</div>
-                <div class="score_div" data-group="1" score="0">
+                <div class="score_div" group="1" score="0">
                     <div id="score_start">极差</div>
                     <div id="score_other">2</div>
                     <div>3</div>
@@ -38,129 +44,10 @@
                     <div>7</div>
                     <div id="score_end">极好</div>
                 </div>
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="意见或建议" class="layui-input ">
+                <input type="text" maxlength="20" name="title" lay-verify="title" autocomplete="off" placeholder="意见或建议" class="layui-input ">
                 <div class="text-center">
                     <button class="layui-btn layui-btn-normal vote_btn" data-upload>提交</button>
                 </div>
-            </div>
-            <div class="vote">
-                <div class="vote_group">第二组</div>
-                <div class="score_div" data-group="2" score="0">
-                    <div>极差</div>
-                    <div>2</div>
-                    <div>3</div>
-                    <div>4</div>
-                    <div>5</div>
-                    <div>6</div>
-                    <div>7</div>
-                    <div>极好</div>
-                </div>
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="意见或建议" class="layui-input">
-                <div class="text-center">
-                    <button class="layui-btn layui-btn-normal vote_btn" data-upload>提交</button>
-                </div>        
-            </div>
-            <div class="vote">
-                <div class="vote_group">第三组</div>
-                <div class="score_div" data-group="3" score="0">
-                    <div>极差</div>
-                    <div>2</div>
-                    <div>3</div>
-                    <div>4</div>
-                    <div>5</div>
-                    <div>6</div>
-                    <div>7</div>
-                    <div>极好</div>
-                </div>
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="意见或建议" class="layui-input">
-                <div class="text-center">
-                    <button class="layui-btn layui-btn-normal vote_btn" data-upload>提交</button>
-                </div>        
-            </div>
-            <div class="vote">
-                <div class="vote_group">第四组</div>
-                <div class="score_div" data-group="4" score="0">
-                    <div>极差</div>
-                    <div>2</div>
-                    <div>3</div>
-                    <div>4</div>
-                    <div>5</div>
-                    <div>6</div>
-                    <div>7</div>
-                    <div>极好</div>
-                </div>
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="意见或建议" class="layui-input">
-                <div class="text-center">
-                    <button class="layui-btn layui-btn-normal vote_btn" data-upload>提交</button>
-                </div>        
-            </div>
-            <div class="vote">
-                <div class="vote_group">第五组</div>
-                <div class="score_div" data-group="5" score="0">
-                    <div>极差</div>
-                    <div>2</div>
-                    <div>3</div>
-                    <div>4</div>
-                    <div>5</div>
-                    <div>6</div>
-                    <div>7</div>
-                    <div>极好</div>
-                </div>
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="意见或建议" class="layui-input">
-                <div class="text-center">
-                    <button class="layui-btn layui-btn-normal vote_btn" data-upload>提交</button>
-                </div>       
-            </div>
-            <div class="vote">
-                <div class="vote_group">第六组</div>
-                <div class="score_div" data-group="6" score="0">
-                    <div>极差</div>
-                    <div>2</div>
-                    <div>3</div>
-                    <div>4</div>
-                    <div>5</div>
-                    <div>6</div>
-                    <div>7</div>
-                    <div>极好</div>
-                </div>
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="意见或建议" class="layui-input">
-                <div class="text-center">
-                    <button class="layui-btn layui-btn-normal vote_btn" data-upload>提交</button>
-                </div>     
-            </div>
-            <div class="vote">
-                <div class="vote_group">第七组</div>
-                <div class="score_div" data-group="7" score="0">
-                    <div>极差</div>
-                    <div>2</div>
-                    <div>3</div>
-                    <div>4</div>
-                    <div>5</div>
-                    <div>6</div>
-                    <div>7</div>
-                    <div>极好</div>
-                </div>
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="意见或建议" class="layui-input">
-                <div class="text-center">
-                    <button class="layui-btn layui-btn-normal vote_btn" data-upload>提交</button>
-                </div>        
-            </div>
-            <div class="vote">
-                <div class="vote_group">第八组</div>
-                <div class="score_div" data-group="8" score="0">
-                    <div>极差</div>
-                    <div>2</div>
-                    <div>3</div>
-                    <div>4</div>
-                    <div>5</div>
-                    <div>6</div>
-                    <div>7</div>
-                    <div>极好</div>
-                </div>
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="意见或建议" class="layui-input">
-                <div class="text-center">
-                    <button class="layui-btn layui-btn-normal vote_btn" data-upload>提交</button>
-                </div>        
             </div>
         </div>
     </div>

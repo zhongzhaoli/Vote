@@ -58,6 +58,26 @@ body,html{
     text-align: center;
     
 }
+.loading{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+.loading > img{
+    width: 5rem;
+}
+.vis_hidden{
+    visibility: hidden;
+}
+.ps{
+    word-break: break-all;
+    color:#999;
+}
 @media screen and (max-width: 600px){
     .layui-container{
         padding: 0;
