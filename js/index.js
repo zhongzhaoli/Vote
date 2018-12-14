@@ -78,6 +78,7 @@ let variable = {
         //删除被克隆的元素
         $(".vote_div").children().first().remove();
     },
+    pc_mouse_down: false,
 }
 $(function () {
 
@@ -126,6 +127,7 @@ $(function () {
             if (!obj.ps) {
                 $(this).parent().prev().val("无");
             }
+            $(this).parent().prevAll(".score_div").children("div").unbind();
         }, function (err) {
             close_loading();
             $.growl.warning({
@@ -147,28 +149,37 @@ $(function () {
         variable.now_el = $(this);
         variable.move_el = $(this);
         variable.to_active(variable.now_el);
-    })
+        variable.init(); 
+	  })
 
     //手指移动
     $(".score_div > div").on("touchmove", function (event) {
-        console.log("1");
         let x = event.touches[0].clientX - variable.bad_offset;
         if (x < 0) {
             variable.move_el = "";
         } else if (x <= variable.bad_good_width) {
             variable.move_el = variable.now_el.parent().children("div")[0];
         } else if (x >= variable.good_offset) {
-            variable.move_el = variable.now_el.parent().children("div")[variable.now_el.parent().children().length - 1];
+            variable.move_el = variable.now_ell.parent().children("div")[variable.now_el.parent().children().length - 1];
         } else {
             let list_choose = Math.ceil((x - variable.bad_good_width) / variable.other_width);
             variable.move_el = variable.now_el.parent().children("div")[list_choose];
         }
         variable.to_active(variable.move_el);
     })
+    $(".score_div > div").on("mousedown", function (event) {
+        variable.pc_mouse_down = true;
+        variable.to_active($(this));
+    })
+    $(".score_div > div").on("mouseup", function (event) {
+        variable.pc_mouse_down = false;
+    })
+    $(".score_div > div").on("mouseover", function (event) {
+        if(variable.pc_mouse_down){
+            variable.to_active($(this));
+        }
+    })
 })
 $(window).resize(function () {
     variable.init();
 });
-window.onload = function () {
-    variable.init();
-}
