@@ -60,5 +60,5 @@ $(function(){
     })
 });
 $(window).resize(function(){
-
+    myChart.resize();
 })
