@@ -23,7 +23,7 @@ option = {
             axisLabel: {
                 interval: 0,
                 textStyle: {
-                    fontSize: 12,
+                    fontSize: 25,
                 }
             }
         }

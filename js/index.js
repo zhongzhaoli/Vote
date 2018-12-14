@@ -147,7 +147,8 @@ $(function () {
         variable.now_el = $(this);
         variable.move_el = $(this);
         variable.to_active(variable.now_el);
-    })
+        variable.init(); 
+	  })
 
     //手指移动
     $(".score_div > div").on("touchmove", function (event) {
@@ -170,5 +171,5 @@ $(window).resize(function () {
     variable.init();
 });
 window.onload = function () {
-    variable.init();
+  
 }
