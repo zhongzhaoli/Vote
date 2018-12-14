@@ -23,14 +23,21 @@ option = {
             axisLabel: {
                 interval: 0,
                 textStyle: {
-                    fontSize: 25,
+                    fontSize: 20,
+                },
+                formatter: function(a){
+                    if(a.length > 8){
+                        a = a.slice(0,8);
+                        a = a + "..."
+                    }
+                    return a;
                 }
-            }
+            },
         }
     ],
     yAxis : [
         {
-            type : 'value'
+            type : 'value',
         }
     ],
     series : [
@@ -41,6 +48,41 @@ option = {
             data:[],
         }
     ]
+},
+resize_fun = function(){
+    //大于1200
+    if(window.screen.width > 1200){
+        option.xAxis[0].axisLabel.textStyle.fontSize = 20;
+        option.xAxis[0].axisLabel.formatter = function(a){
+            if(a.length > 8){
+                a = a.slice(0,8);
+                a = a + "..."
+            }
+            return a;
+        }
+        myChart.setOption(option);    
+        myChart.setOption(option);    
+    }
+    //小于1200
+    if(window.screen.width <= 1200){
+        option.xAxis[0].axisLabel.textStyle.fontSize = 15;
+        option.xAxis[0].axisLabel.formatter = function(a){
+            if(a.length > 4){
+                a = a.slice(0,4);
+                a = a + "..."
+            }
+            return a;
+        }
+        myChart.setOption(option);    
+    }
+    //小于700
+    if(window.screen.width <= 700){
+        option.xAxis[0].axisLabel.formatter = function(a){
+            return "";
+        }
+        myChart.setOption(option);    
+    }
+    myChart.resize();
 };
 $(function(){
     myChart = echarts.init(document.getElementById('main'));
@@ -60,5 +102,8 @@ $(function(){
     })
 });
 $(window).resize(function(){
-    myChart.resize();
+    resize_fun();
 })
+window.onload = function(){
+    resize_fun();
+}

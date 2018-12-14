@@ -5,3 +5,7 @@ body,html{
     margin-top:2rem;
     text-align: center;
 }
+.ec_div{
+    padding: 0 30px;
+    box-sizing: border-box;
+}
