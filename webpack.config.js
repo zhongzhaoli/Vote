@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   //入口文件的配置项
   entry: {
-    entry: ['./js/ajax.js','./js/api.js','./js/login.js']
+    entry: ['./js/cookie.js', './js/util', './js/ajax.js','./js/api.js','./js/login.js', './js/index.js', './js/admin.js']
   },
   //出口文件的配置项
   output: {
@@ -74,8 +74,8 @@ module.exports = {
   //插件，用于生产模版和各项功能
   plugins: [
     new webpack.DefinePlugin({
-      'baseUrl': JSON.stringify('http://dev.example.com'),
-      'baseSocket': JSON.stringify('http://dev.example.com'),
+      'baseUrl': JSON.stringify('http://10.1.53.123:9999'),
+      'baseSocket': JSON.stringify('http://10.1.53.149:1080'),
     })
   ],
   //配置webpack开发服务功能

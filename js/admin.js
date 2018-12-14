@@ -1,5 +1,5 @@
 
-var myChart;
+let myChart, 
 option = {
     color: ['#3398DB'],
     tooltip : {

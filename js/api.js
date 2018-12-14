@@ -24,4 +24,3 @@ const api =  {
         return ajax.ajax(url, "get");
     }
 }
-window.api = api;
