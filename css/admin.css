@@ -9,3 +9,8 @@ body,html{
     padding: 0 30px;
     box-sizing: border-box;
 }
+@media screen and (min-width: 1200px){
+    .layui-container {
+        width: 1300px;
+    }
+}
