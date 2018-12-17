@@ -23,7 +23,7 @@ option = {
             axisLabel: {
                 interval: 0,
                 textStyle: {
-                    fontSize: 20,
+                    fontSize: 15,
                 },
                 formatter: function(a){
                     if(a.length > 8){
@@ -46,12 +46,22 @@ option = {
             type:'bar',
             barWidth: '60%',
             data:[],
+            label: {
+                normal: {
+                    textStyle:{
+                        color: "#000",
+                        fontSize: 15
+                    },
+                    show: true,
+                    position: 'top',
+                },
+            },
         }
-    ]
+    ],
 },
 resize_fun = function(){
     //大于1200
-    if(window.screen.width > 1200){
+    if(document.body.offsetWidth > 1198){
         option.xAxis[0].axisLabel.textStyle.fontSize = 20;
         option.xAxis[0].axisLabel.formatter = function(a){
             if(a.length > 8){
@@ -64,7 +74,7 @@ resize_fun = function(){
         myChart.setOption(option);    
     }
     //小于1200
-    if(window.screen.width <= 1200){
+    if(document.body.offsetWidth <= 1198){
         option.xAxis[0].axisLabel.textStyle.fontSize = 15;
         option.xAxis[0].axisLabel.formatter = function(a){
             if(a.length > 4){
@@ -76,7 +86,7 @@ resize_fun = function(){
         myChart.setOption(option);    
     }
     //小于700
-    if(window.screen.width <= 700){
+    if(document.body.offsetWidth <= 700){
         option.xAxis[0].axisLabel.formatter = function(a){
             return "";
         }
