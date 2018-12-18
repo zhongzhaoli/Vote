@@ -103,12 +103,16 @@ $(function () {
     }).then((mes) => {
         //获取开关
         api.get_status().then((mes) => {
-            if(mes === "ON"){
-                $("#switch_btn").attr("checked", "checked");
-            }
-            if(getCookie('kx_user_id') != "999"){
-                $("#switch_btn").attr("disabled", "disabled");
-            }
+            layui.use('form', function(){
+                if(getCookie('kx_user_id') != "999"){
+                    $("#switch_btn").attr("disabled", "disabled");
+                    form.render();
+                }
+                if(mes === "ON"){
+                    $("#switch_btn").attr("checked", "checked");
+                    form.render();
+                }
+            });
         }, function(err){
             $.growl.warning({
                 title: "提示",
