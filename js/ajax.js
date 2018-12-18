@@ -1,6 +1,6 @@
 const ajax = {
-    ajax: function(url, type, data = {}){
-        var promise = new Promise(function(sucess_fun, error_fun){
+    ajax: function (url, type, data = {}) {
+        var promise = new Promise(function (sucess_fun, error_fun) {
             $.ajax({
                 url: url,
                 data: data,

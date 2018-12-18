@@ -9,6 +9,15 @@ body,html{
     padding: 0 30px;
     box-sizing: border-box;
 }
+.admin_function{
+    padding: 0 30px;
+}
+.pad_20{
+    padding: 20px 0;
+}
+.mt_20{
+    margin-top: 20px;
+}
 @media screen and (min-width: 1200px){
     .layui-container {
         width: 1300px;

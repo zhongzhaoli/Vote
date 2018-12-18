@@ -107,8 +107,6 @@ $(function () {
 
     //提交按钮点击
     $("[data-upload]").on("click", function () {
-        //socket 传输
-        variable.socket_fun($(this).parent().prevAll(".score_div"));
         //数据库
         let obj = {
             "userid": getCookie("kx_user_id"),
@@ -128,6 +126,8 @@ $(function () {
                 $(this).parent().prev().val("无");
             }
             $(this).parent().prevAll(".score_div").children("div").unbind();
+            //socket 传输
+            variable.socket_fun($(this).parent().prevAll(".score_div"));
         }, function (err) {
             close_loading();
             $.growl.warning({
@@ -149,8 +149,8 @@ $(function () {
         variable.now_el = $(this);
         variable.move_el = $(this);
         variable.to_active(variable.now_el);
-        variable.init(); 
-	  })
+        variable.init();
+    })
 
     //手指移动
     $(".score_div > div").on("touchmove", function (event) {
@@ -175,7 +175,7 @@ $(function () {
         variable.pc_mouse_down = false;
     })
     $(".score_div > div").on("mouseover", function (event) {
-        if(variable.pc_mouse_down){
+        if (variable.pc_mouse_down) {
             variable.to_active($(this));
         }
     })
