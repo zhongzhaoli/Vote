@@ -106,6 +106,9 @@ $(function () {
             if(mes === "ON"){
                 $("#switch_btn").attr("checked", "checked");
             }
+            if(getCookie('kx_user_id') != "999"){
+                $("#switch_btn").attr("disabled", "disabled");
+            }
         }, function(err){
             $.growl.warning({
                 title: "提示",
