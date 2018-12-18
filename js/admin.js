@@ -104,6 +104,7 @@ $(function () {
         //获取开关
         api.get_status().then((mes) => {
             layui.use('form', function(){
+                let form = layui.form;
                 if(getCookie('kx_user_id') != "999"){
                     $("#switch_btn").attr("disabled", "disabled");
                     form.render();
