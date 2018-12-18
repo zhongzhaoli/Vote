@@ -18,6 +18,9 @@ body,html{
 .mt_20{
     margin-top: 20px;
 }
+.layui-btn .layui-icon{
+    margin-right: 0;
+}
 @media screen and (min-width: 1200px){
     .layui-container {
         width: 1300px;
